@@ -1,4 +1,6 @@
+# Multi-file module
 obj-m += mydrv.o
+mydrv-objs := main.o fs.o
 
 # Get the kernel version and build directory
 KVERSION = $(shell uname -r)
