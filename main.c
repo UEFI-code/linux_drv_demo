@@ -17,6 +17,7 @@ static struct file_operations fops = {
     .read = mydrv_read,
     .write = mydrv_write,
     .llseek = my_llseek,
+    .mmap = mydrv_mmap,
 };
 
 static int __init mydrv_init(void)
