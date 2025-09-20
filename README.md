@@ -19,3 +19,10 @@ dmesg | tail -n 5
 make uninstall
 dmesg | tail -n 5
 ```
+
+```python
+import mmap
+f = open("/dev/mydrv", "r+b")
+mm = mmap.mmap(f.fileno(), 4096)
+print(mm[0:16])
+```
