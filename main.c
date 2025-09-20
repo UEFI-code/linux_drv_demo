@@ -6,6 +6,7 @@ MODULE_DESCRIPTION(DRIVER_DESC);
 MODULE_VERSION(DRIVER_VERSION);
 
 int major_number;
+dev_t dev;
 struct class* mydrv_class = NULL;
 struct device* mydrv_device = NULL;
 struct cdev mydrv_cdev;
@@ -15,12 +16,13 @@ static struct file_operations fops = {
     .release = mydrv_release,
     .read = mydrv_read,
     .write = mydrv_write,
+    .llseek = my_llseek,
 };
 
 static int __init mydrv_init(void)
 {
     printk(KERN_INFO "mydrv: Initializing the mydrv driver\n");
-    dev_t dev = MKDEV(major_number, 0);
+    dev = MKDEV(major_number, 0);
     uint8_t ret = alloc_chrdev_region(&dev, 0, 1, DEVICE_NAME);
     if (ret < 0) {
         printk(KERN_ALERT "mydrv: Failed to allocate major number\n");
@@ -39,9 +41,7 @@ static int __init mydrv_init(void)
 
 static void __exit mydrv_exit(void)
 {
-    printk(KERN_INFO "mydrv: Cleaning up the mydrv driver\n");
     cdev_del(&mydrv_cdev);
-    dev_t dev = MKDEV(major_number, 0);
     device_destroy(mydrv_class, dev);
     class_destroy(mydrv_class);
     unregister_chrdev_region(dev, 1);

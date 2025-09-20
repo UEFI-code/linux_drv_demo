@@ -17,3 +17,4 @@ extern int mydrv_open(struct inode *inode, struct file *file);
 extern int mydrv_release(struct inode *inode, struct file *file);
 extern ssize_t mydrv_read(struct file *file, char __user *buffer, size_t len, loff_t *offset);
 extern ssize_t mydrv_write(struct file *file, const char __user *buffer, size_t len, loff_t *offset);
+extern loff_t my_llseek(struct file *file, loff_t offset, int whence);
